@@ -1,0 +1,67 @@
+body{
+    background-color: whitesmoke;
+}
+
+#logo{
+    font-size: xx-large;
+}
+
+#logo:hover{
+    text-shadow: 3px 3px 10px white ;
+}
+
+nav{
+    z-index: 2;
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100dvw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 8dvh;
+    background-color: #88b04b;
+    box-shadow: 0 4px 10px black;
+}
+
+nav:hover{
+    box-shadow: 0 5px 10px white;
+}
+
+#nav-left{
+    margin-left: 2%;
+    width: fit-content;
+    cursor: pointer;
+}
+
+#nav-left:hover{
+    scale: 1.2;
+    transition-duration: 0.3s
+    
+}
+
+#nav-right{
+    font-size: medium;
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+#nav-right{
+    scale: 1.1;
+    transition-duration: 0.3s;
+}
+
+#profile:hover{ 
+    text-shadow: 3px 3px 10px white ;
+}
+
+
+#box-profile:hover{
+    scale: 1.2;
+    transition-duration: 0.3s;
+}
+
+#realtimeClock{
+    font-size: larger;
+    margin-left: -1.5%;
+}

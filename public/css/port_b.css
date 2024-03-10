@@ -1,0 +1,59 @@
+body{
+    background-color: #465461;
+}
+
+.welcome{
+    display: flex;
+    justify-content: center;
+    margin-top: 3%;
+}
+
+#welcome{
+    font-size: xx-large;
+}
+
+.container{
+    display: grid;
+    width: 100%;
+    justify-items: center;
+}
+
+.grid{
+    width: 70%;
+    margin-top: 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    font-size: large;
+    border: 3px solid ;
+    border-radius: 20px;
+    animation: borderColorChangeAnimation 10s linear infinite; /* เรียกใช้ animation */
+  
+}
+  /* กำหนด animation */
+  @keyframes borderColorChangeAnimation {
+        0% {
+          border-color: #ff37e8;
+        }
+        25% {
+            border-color: #44d0ff;
+          }
+        50% {
+          border-color: #23fb4a;
+        }
+        75% {
+            border-color: #ffbf0e;
+          }
+        100% {
+          border-color: #ff37e8;
+        }
+    
+    }
+
+.grid-items{
+    width: 300px;
+    padding: 5%;
+}
+
+
+  

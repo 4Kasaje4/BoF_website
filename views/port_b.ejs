@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/all.css">
+    <link rel="stylesheet" href="/public/css/port_b.css">
+    <link rel="icon" href="/public/img/logo.ico" type="image/x-icon" >
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <title>Portfolio Kaseamsan Keawjeen</title>
+</head>
+<body>
+    <div class="welcome">
+        <label id="welcome">Welcome to my portfolio</label>
+    </div> 
+
+    <div class="container">
+        <div class="grid">
+            <div class="grid-items name">
+                <label>Name : Mr.Kaseamsan Keawjeen</label>
+            </div>
+            <div class="grid-items nickname">
+                 <label>Nickname : Bowie</label>
+            </div>
+            <div class="grid-items up">
+                 <label>Univetsity of Phayao</label>
+            </div>
+            <div class="grid-items major">
+                <label>Major : Software engineer</label>
+            </div>
+            <div class="grid-items major">
+                 <label></label>
+            </div>
+    
+            
+        </div>
+    </div>
+
+    <script>
+        ScrollReveal().reveal('.welcome', {reset: true});
+        //ScrollReveal().reveal('.grid-items', {duration: 2500, reset: true});
+        ScrollReveal().reveal('.name', {duration: 1000, reset: true});
+        ScrollReveal().reveal('.nickname', {delay: 500, duration: 1000, reset: true});
+        ScrollReveal().reveal('.up', {delay: 1000, duration: 1000, reset: true});
+        ScrollReveal().reveal('.major', {delay: 1500, duration: 1000, reset: true});
+    </script>
+</body>
+</html>

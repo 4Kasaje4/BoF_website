@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/public/img/logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/public/css/all.css">
+    <link rel="stylesheet" href="/public/css/bof.css">
+    <title>Bowie & F</title>
+</head>
+<body>
+    <nav>
+        <div id="nav-left">
+            <a href="http://localhost:1998/home" id="logo">B & F</a>
+        </div>
+        <div id="realtimeClock"></div>
+        <div id="nav-right">
+            <div id="box-profile">
+                <a href="#" id="profile">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <script>
+        function updateClock() {
+      const clockElement = document.getElementById('realtimeClock');
+      const now = new Date();
+    
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+      const formattedTime = `${hours} : ${minutes} : ${seconds}`;
+      clockElement.textContent = formattedTime;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      // Update the clock every second
+      setInterval(updateClock, 1000);
+    });
+    
+    
+    </script>
+</body>
+</html>

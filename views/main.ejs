@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/formain.css">
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="icon" href="/public/img/logo.ico" type="image/x-icon" >
+    <title>Welcome</title>
+</head>
+<body>
+    <div id="display">
+        <div class="container">
+            <div class="form-control">
+                <div class="inform">
+                    <label id="welcome">Welcome</label>
+                    <div class="form-input">
+                        <div id="box">
+                            <label id="text">Username</label>
+                            <input type="text" name="username" id="username">
+                            <label id="alert-username"></label>
+                        </div>
+                        <div id="box">
+                            <label id="text">Password</label>
+                            <input type="password" name="password" id="password">
+                            <label id="alert-password"></label>
+                        </div>
+                    </div>
+                    <div class="btn">
+                        <button onclick="login()">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+
+    <script>
+        const login = async() => {
+            const username = document.querySelector('#username').value;
+            const password = document.querySelector('#password').value;
+
+            const alert_username = document.querySelector('#alert-username');
+            const alert_password = document.querySelector('#alert-password');
+            
+            if(username == "" && password == ""){
+                alert_username.innerHTML = "please insert username.";
+                alert_username.style.color = 'red';   
+                alert_password.innerHTML = "please insert password.";
+                alert_password.style.color = 'red';   
+            }else if(username != "" && password == ""){
+                alert_password.innerHTML = "please insert password.";
+                alert_password.style.color = 'red';   
+                alert_username.innerHTML = "";  
+            }else if(username == "" && password != ""){
+                alert_username.innerHTML = "please insert username.";
+                alert_username.style.color = 'red';    
+                alert_password.innerHTML = ""; 
+            }else{
+                const data = {
+                    username: username,
+                    password: password
+                }
+                dataJson = JSON.stringify(data);
+                const response = await fetch('http://localhost:1998/login',{
+                    method: 'POST',
+                    headers: { 'Content-type' : 'application/json'},
+                    body: dataJson
+                });
+
+                const response_data = await response.json();
+                console.log(response_data); 
+                window.location.href = "http://localhost:1998" + response_data['redirecTo'];
+
+            }
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js"></script>
+    <script>
+       VANTA.CLOUDS({
+          el: "#display",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00
+       });
+    </script>
+    
+</body>
+</html>
