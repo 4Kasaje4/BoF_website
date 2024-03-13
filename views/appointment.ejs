@@ -6,6 +6,7 @@
     <link rel="icon" href="/public/img/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="/public/css/all.css">
     <link rel="stylesheet" href="/public/css/appointment.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <title>Appointment</title>
 </head>
 <body>
@@ -21,7 +22,106 @@
         </div>
     </nav>
 
+    <div class="search"> 
+        <input type="text" id="searchbox" name="searchbox" oninput="searchAP()" placeholder="Search">
+    </div>
 
+    <div class="grid">
+        <div class="grid-items" >
+            <input type="text" name="ap_name" id="ap_input" placeholder="Name">
+        </div>
+        <div class="grid-items" >
+            <input type="text" name="ap_description" id="ap_input" placeholder="Description">
+        </div>
+        <div class="grid-items" >
+            <input type="text" name="ap_location" id="ap_input" placeholder="Location">
+        </div>
+        <div class="grid-items">
+            <input type="datetime-local" style="width: fit-content; padding-right: 5%;" name="ap_datetime" id="ap_input">
+        </div>
+        <div class="grid-items" >
+            <button id="ap_button" onclick="add_appointment()">
+                <ion-icon name="add-circle-outline" id="btn-pic"></ion-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="grid-show">
+        <div class="grid-show-items">
+            <div style="padding: 3%; color: black; font-size: larger; display: flex;  border-right: 10px solid red; flex-direction: column; width: auto; background-color: rgb(186, 230, 230);">
+                <label class="show_appointment" >Name : TestName</label>
+                <label class="show_appointment" >Description : TestDescription</label>
+                <label class="show_appointment" >Location : TestLocation</label>
+                <label class="show_appointment" >Datetime : TestDatetime</label>
+                <div>
+                    <button>BTN1</button>
+                    <button>BTN2</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="grid-show-items">
+            <div class="grid-show-items">
+                <div style="padding: 3%; color: black; font-size: larger; border-right: 10px solid rgb(17, 191, 17); display: flex; flex-direction: column; width: auto; background-color: rgb(186, 230, 230);">
+                    <label class="show_appointment" >Name : TestName</label>
+                    <label class="show_appointment" >Description : TestDescription</label>
+                    <label class="show_appointment" >Location : TestLocation</label>
+                    <label class="show_appointment" >Datetime : TestDatetime</label>
+                </div>
+    
+            </div>
+        </div>
+        <div class="grid-show-items">
+            <div class="grid-show-items">
+                <div style="padding: 3%; color: black; font-size: larger; border-right: 10px solid rgb(226, 226, 69); display: flex; flex-direction: column; width: auto; background-color: rgb(186, 230, 230);">
+                    <label class="show_appointment" >Name : TestName</label>
+                    <label class="show_appointment" >Description : TestDescription</label>
+                    <label class="show_appointment" >Location : TestLocation</label>
+                    <label class="show_appointment" >Datetime : TestDatetime</label>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const ap_name = document.getElementsByName('ap_name')[0].value
+        const ap_description = document.getElementsByName('ap_description')[0].value
+        const ap_location = document.getElementsByName('ap_location')[0].value
+        const ap_datetime = document.getElementsByName('ap_datetime')[0].value
+
+        async function add_appointment(){
+            let ap_name = document.getElementsByName('ap_name')[0].value
+            let ap_description = document.getElementsByName('ap_description')[0].value
+            let ap_location = document.getElementsByName('ap_location')[0].value
+            let ap_datetime = document.getElementsByName('ap_datetime')[0].value
+            if(ap_name == "" || ap_description == "" || ap_location == "" || ap_datetime == ""){
+                Swal.fire({
+                    title: 'Please insert all data',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                })
+            }else{
+                const data = {
+                    ap_name: ap_name,
+                    ap_description: ap_description,
+                    ap_location: ap_location,
+                    ap_datetime: ap_datetime
+                }
+                const dataJson = JSON.stringify(data);
+                const response = await fetch('http://localhost:1998/add_appointment', {
+                    method: "POST",
+                    headers: {'Content-Type' : 'application/json'},
+                    body: dataJson
+                });
+                const response_data = await response.json();
+                if(response_data['status']){
+                    location.reload()
+                }
+            }
+        }
+    </script>
     <script>
         function updateClock() {
       const clockElement = document.getElementById('realtimeClock');
@@ -39,8 +139,10 @@
       // Update the clock every second
       setInterval(updateClock, 1000);
     });
-    
-    
     </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
 </body>
 </html>

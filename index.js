@@ -55,7 +55,7 @@ db.serialize(() => {
     // Create table user. [user_id, username, firstname, lastname, password, phone, age]
     db.run('CREATE TABLE IF NOT EXISTS user(user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, firstname TEXT, lastname TEXT, password TEXT, phone TEXT, age INTEGER )');
     // Create table appointment. [ap_id, ap_name, ap_description, status, user_id(foreign key)]
-    db.run('CREATE TABLE IF NOT EXISTS appointment(ap_id INTEGER PRIMARY KEY AUTOINCREMENT, ap_name TEXT, ap_description TEXT, status BOOLEAN DEFAULT false, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id))');
+    db.run('CREATE TABLE IF NOT EXISTS appointment(ap_id INTEGER PRIMARY KEY AUTOINCREMENT, ap_name TEXT, ap_description TEXT, ap_location TEXT, ap_datetime DATETIME, ap_status BOOLEAN DEFAULT false, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id))');
 });
 
 router.get('/',(req,res) => {
@@ -71,7 +71,14 @@ router.get('/Portfolio_Kaseamsan', authLogin, (req,res) => {
 });
 
 router.get('/appointment', authLogin, (req,res) => {
-    res.render('appointment');
+    db.all('SELECT * FROM appointment', (err, result) => {
+        if(err){
+            console.log(err);
+        }else{ 
+            res.render('appointment', {result: result});
+        }
+    });
+    
 });
 
 router.get('/bof', authLogin, (req,res) => {
@@ -102,9 +109,10 @@ router.post('/register',async(req,res) => {
      }
 })
 
-router.post('/login',(req,res) => {
+router.post('/login', async(req,res) => {
     try{
-        const {username, password} = req.body;
+        let {username, password} = req.body;
+        username = await username.toLowerCase();
         db.all('SELECT * FROM user WHERE username = ?',[username], async(err,result) => {
             if(err){
                 console.log(err);
@@ -130,14 +138,16 @@ router.post('/login',(req,res) => {
     }
 });
    
-router.post('/add_appointment', (req,res) => {
+router.post('/add_appointment', async (req,res) => {
     try {
-        const {ap_name, ap_description, status, user_id} = req.body;
-        db.run('INSERT INTO appointment(ap_name, ap_description, status, user_id) VALUES(?, ?, ?, ?)',[ap_name, ap_description, status, user_id], (err) => {
+        const {ap_name, ap_description, ap_location, ap_datetime} = req.body;
+        const user_id = await req.session.user_id;
+        console.log(ap_name, ap_description, ap_location, ap_datetime, user_id);
+        db.run('INSERT INTO appointment(ap_name, ap_description, ap_location, ap_datetime, ap_status, user_id) VALUES(?, ?, ?, ?, ?, ?)',[ap_name, ap_description, ap_location, ap_datetime, false, user_id], (err) => {
             if(err){
                 console.log(err);
             }else{
-                res.json({message: 'Add appointment successfully.'});
+                res.json({status: true});
             }
         });
     } catch (error) {

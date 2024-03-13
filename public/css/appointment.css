@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Patrick+Hand+SC&display=swap');
+
+
 body{
     background-color: whitesmoke;
 }
 
 #logo{
     font-size: xx-large;
+    
 }
 
 #logo:hover{
@@ -64,4 +68,116 @@ nav:hover{
 #realtimeClock{
     font-size: larger;
     margin-left: -1.5%;
+}
+
+.search{
+    margin-top: 12dvh;
+    display: flex;
+    justify-content: center;
+}
+
+#searchbox{
+    font-size: large;
+    width: 30%;
+    height: 4dvh;
+    border: 4px solid white;
+    border-radius: 150px;
+    background-color: #88b04b;
+    box-shadow: 5px 5px 10px #88b04b;
+    text-align: center;
+}
+
+#searchbox:focus{
+    outline: none;
+    box-shadow: 5px 15px 20px #88b04b;
+}
+
+::placeholder{
+    color: white;
+}
+
+#text-add-ap{
+    text-align: center;
+    font-size: large;
+
+}
+
+.grid{
+    margin: 3% 2% 0 2%;
+    display: grid;
+    grid-template-columns: 2fr 3fr 2fr 2fr 1fr;
+    gap: 20px;
+}
+
+.grid-items{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 8dvh;
+}
+
+#ap_input{
+    font-size: large;
+    border: none;
+    border-radius: 20px;
+    outline: 5px solid white;
+    box-shadow: 10px 10px 20px #88b04b;
+    background-color: #88b04b;
+    width: 80%;
+    height: 70%;
+    text-align: center;
+    cursor: pointer;
+}
+
+#ap_input:focus{
+    outline: none;
+    scale: 1.1;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: brightness(0) invert(1);
+}
+
+#ap_button{
+    width: 50%;
+    height: 7dvh;
+    background-color: #88b04b;
+    border: 5px solid white;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px #88b04b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ap_button:hover{
+    scale: 1.1;
+    cursor: pointer;
+    box-shadow: 15px 15px 20px #88b04b;
+}
+
+#btn-pic{
+    width: 30px;
+    height: 30px;
+}
+.grid-show{
+    display: grid;
+    margin: 3% 2% 0 2%;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    position: relative;
+}
+
+.grid-show-items{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.show_appointment{
+    margin: 5px;
 }

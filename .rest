@@ -4,7 +4,7 @@
 GET {{baseUrl}}
 
 ###
-POST {{baseUrl}}/register
+POST {{baseUrl}}/register  
 Content-Type: application/json
   
 {
@@ -19,8 +19,8 @@ POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-    "username": "user1",
-    "password": "user1"
+    "username": "kasaje",
+    "password": "bowie"
 }
 
 ###
@@ -29,7 +29,5 @@ Content-Type: application/json
 
 {
     "ap_name": "ไปดูหนังกันนนนนนนน",
-    "ap_description": "เราจะไปดูหนังกันที่ Major Rachayothin แล้วจากนั้น เราก็จะไปกิน MK กันนนนนนน แล้วก็ไปเที่ยวเรื่อยเปื่อยยย",
-    "status": false,
-    "user_id": 1
+    "ap_description": "เราจะไปดูหนังกันที่ Major Rachayothin แล้วจากนั้น เราก็จะไปกิน MK กันนนนนนน แล้วก็ไปเที่ยวเรื่อยเปื่อยยย"
 } 
