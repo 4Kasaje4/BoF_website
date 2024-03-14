@@ -14,7 +14,7 @@ const { runInContext } = require('vm');
 
 // Setting
 app.use(session({
-    secret: env['SECERT'],
+    secret: "Kasaje",
     resave: false,
     saveUninitialized: false,
     cookie: {
