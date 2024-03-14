@@ -35,7 +35,7 @@ app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 
 
-const db = new  sqlite3.Database("Bof.db");
+const db = new  sqlite3.Database("BoF.db");
 
 // Function hashing password
 const hashPassword = async(inputPassword) => {
