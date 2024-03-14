@@ -11,6 +11,12 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://bof.onrender.com");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 // Setting
 app.use(session({
     secret: "Kasaje",
