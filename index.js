@@ -4,13 +4,12 @@ const app = express();
 const router = express.Router();
 const env = require('dotenv').config().parsed;
 const sqlite3 = require('sqlite3').verbose();
-const port = env['PORT'] || 3000;
+const port = 3000;
 const db_name = env['DB_NAME'];
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
-const { runInContext } = require('vm');
 
 // Setting
 app.use(session({
