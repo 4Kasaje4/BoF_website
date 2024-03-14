@@ -12,7 +12,7 @@
 <body>
     <nav>
         <div id="nav-left">
-            <a href="https://silly-gold-pantyhose.cyclic.app/home" id="logo">B & F</a>
+            <a href="http://localhost:3000/home" id="logo">B & F</a>
         </div>
         <div id="realtimeClock"></div>
         <div id="nav-right">
@@ -138,7 +138,7 @@
                     ap_date: ap_date
                 }
                 const dataJson = JSON.stringify(data);
-                const response = await fetch('https://silly-gold-pantyhose.cyclic.app/add_appointment', {
+                const response = await fetch('http://localhost:3000/add_appointment', {
                     method: "POST",
                     headers: {'Content-Type' : 'application/json'},
                     body: dataJson
@@ -170,7 +170,7 @@
                     ap_id: ap_id
                     }
                     const dataJson_ap_id = JSON.stringify(data);
-                    const response_del_ap = await fetch('https://silly-gold-pantyhose.cyclic.app/delete_ap',{
+                    const response_del_ap = await fetch('http://localhost:3000/delete_ap',{
                         method: "POST",
                         headers: {'Content-Type' : 'application/json'},
                         body: dataJson_ap_id
@@ -198,7 +198,7 @@
                 ap_id: ap_id
             }
             const dataJson = JSON.stringify(data);
-            const response = await fetch('https://silly-gold-pantyhose.cyclic.app/done_ap',{
+            const response = await fetch('http://localhost:3000/done_ap',{
                 method: "POSt",
                 headers: {'Content-Type' : 'application/json'},
                 body: dataJson
@@ -254,7 +254,7 @@
                     ap_datetime: ap_date
                 }
                 const dataJson = JSON.stringify(data);
-                const response = await fetch('https://silly-gold-pantyhose.cyclic.app/edit_ap', {
+                const response = await fetch('http://localhost:3000/edit_ap', {
                     method: "POST",
                     headers: { 'Content-type': 'application/json' },
                     body: dataJson
