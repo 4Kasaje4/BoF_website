@@ -76,7 +76,7 @@ router.get('/Portfolio_Kaseamsan', authLogin, (req,res) => {
     res.render('port_b');
 });
 
-router.get('/appointment', authLogin, (req,res) => {
+router.get('/appointment', (req,res) => {
     db.all('SELECT * FROM appointment', (err, result) => {
         if(err){
             console.log(err);
