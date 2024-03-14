@@ -3,6 +3,7 @@
 
 body{
     background-color: whitesmoke;
+    margin-bottom: 20px;
 }
 
 #logo{
@@ -135,9 +136,14 @@ nav:hover{
     scale: 1.1;
 }
 
-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator {
     filter: brightness(0) invert(1);
 }
+
+#input4::-webkit-calendar-picker-indicator{
+    filter: brightness(0)
+}
+
 
 #ap_button{
     width: 50%;
@@ -180,4 +186,54 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 .show_appointment{
     margin: 5px;
+}
+
+.btn-show-appointment{
+    border: none;
+    cursor: pointer;
+}
+
+.btn-show-appointment:hover{
+    scale: 1.1;
+    cursor: pointer;
+}
+
+.btn-edit{
+    background-color: rgb(255, 252, 53);
+}
+
+.btn-delete{
+    background-color: rgb(255, 148, 148);
+}
+
+.btn-done{
+    background-color: #88b04b;
+}
+
+@media screen and (max-width:1000px) {
+    .grid{
+        grid-template-columns: 1fr;
+    }
+
+    #ap_button{
+        width: 10dvw;
+    }
+    
+}
+
+@media screen and (max-width: 800px) {
+    .grid-show{
+        grid-template-columns: 1fr 1fr;
+    }
+    #ap_button{
+        width: auto;
+    }
+    
+}
+
+@media screen and (max-width: 600px) {
+    .grid-show{
+        grid-template-columns: 1fr;
+    }
+    
 }

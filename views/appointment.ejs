@@ -6,7 +6,7 @@
     <link rel="icon" href="/public/img/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="/public/css/all.css">
     <link rel="stylesheet" href="/public/css/appointment.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Appointment</title>
 </head>
 <body>
@@ -37,7 +37,7 @@
             <input type="text" name="ap_location" id="ap_input" placeholder="Location">
         </div>
         <div class="grid-items">
-            <input type="datetime-local" style="width: fit-content; padding-right: 5%;" name="ap_datetime" id="ap_input">
+            <input type="date" style="width: fit-content; padding-right: 2%;" name="ap_date" id="ap_input">
         </div>
         <div class="grid-items" >
             <button id="ap_button" onclick="add_appointment()">
@@ -46,57 +46,85 @@
         </div>
     </div>
 
+    <div class="grid-show" id="show-search">
+
+    </div>
     <div class="grid-show">
-        <div class="grid-show-items">
-            <div style="padding: 3%; color: black; font-size: larger; display: flex;  border-right: 10px solid red; flex-direction: column; width: auto; background-color: rgb(186, 230, 230);">
-                <label class="show_appointment" >Name : TestName</label>
-                <label class="show_appointment" >Description : TestDescription</label>
-                <label class="show_appointment" >Location : TestLocation</label>
-                <label class="show_appointment" >Datetime : TestDatetime</label>
-                <div>
-                    <button>BTN1</button>
-                    <button>BTN2</button>
+            <% result.forEach(items => { %>
+                <% if(items.ap_status == 0) { %>
+                <div class="grid-show-items">
+                    <div style="padding: 3%; color: black; font-size: larger; display: flex; flex-direction: column; width: 80%; background-color: rgb(186, 230, 230);">
+                        <label class="show_appointment" >Name : <%= items.ap_name %></label>
+                        <label class="show_appointment" >Description : <%= items.ap_description %></label>
+                        <label class="show_appointment" >Location : <%= items.ap_location %></label>
+                        <label class="show_appointment" >Date : <%= items.ap_date %></label>
+                        <label class="show_appointment" >User : <%= username %></label>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <button class="btn-show-appointment btn-edit" onclick="edit_ap(<%= items.ap_id %>)" >Edit</button>
+                                <button class="btn-show-appointment btn-delete" onclick="delete_ap(<%= items.ap_id %>)" >Delete</button>
+                            </div>
+                            <button class="btn-show-appointment btn-done" onclick="done_ap(<%= items.ap_id %>)">Done</button>
+                        </div>
+                    </div>
                 </div>
+                <% } %> 
+                <% }); %>
             </div>
 
-        </div>
-        <div class="grid-show-items">
-            <div class="grid-show-items">
-                <div style="padding: 3%; color: black; font-size: larger; border-right: 10px solid rgb(17, 191, 17); display: flex; flex-direction: column; width: auto; background-color: rgb(186, 230, 230);">
-                    <label class="show_appointment" >Name : TestName</label>
-                    <label class="show_appointment" >Description : TestDescription</label>
-                    <label class="show_appointment" >Location : TestLocation</label>
-                    <label class="show_appointment" >Datetime : TestDatetime</label>
-                </div>
     
-            </div>
-        </div>
-        <div class="grid-show-items">
-            <div class="grid-show-items">
-                <div style="padding: 3%; color: black; font-size: larger; border-right: 10px solid rgb(226, 226, 69); display: flex; flex-direction: column; width: auto; background-color: rgb(186, 230, 230);">
-                    <label class="show_appointment" >Name : TestName</label>
-                    <label class="show_appointment" >Description : TestDescription</label>
-                    <label class="show_appointment" >Location : TestLocation</label>
-                    <label class="show_appointment" >Datetime : TestDatetime</label>
-                </div>
+    <!-- Done line -->
     
-            </div>
+    <div style="display: flex; justify-content: center; margin-top: 2%; margin-bottom: 2%;">
+        <div style="width: 90%; ">
+            <label style="color: rgb(17, 191, 17); font-weight: bolder; font-size: large;">Done</label>
+            <div style=" border: 2px solid rgb(17, 191, 17); width: 100%; border-radius: 10px;"></div>
         </div>
     </div>
 
+        <div class="grid-show">
+            <% result.forEach(items => { %>
+                <% if(items.ap_status == 1) { %>
+            <div class="grid-show-items">
+                <div style="padding: 3%; color: black; font-size: larger; display: flex; flex-direction: column; width: 80%; background-color: rgb(186, 186, 186)">
+                    <label class="show_appointment" >Name : <%= items.ap_name %></label>
+                    <label class="show_appointment" >Description : <%= items.ap_description %></label>
+                    <label class="show_appointment" >Location : <%= items.ap_location %></label>
+                    <label class="show_appointment" >Date : <%= items.ap_date %></label>
+                    <label class="show_appointment" >User : <%= username %></label>
+                    <div style="display: flex; justify-content: end;">
+                            <button class="btn-show-appointment btn-delete" onclick="delete_ap(<%= items.ap_id %>)" >Delete</button>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            <% }); %>
+        </div>
     <script>
+        // Function to format date and time
+        function formatDateTime(dateTimeString) {
+            const dateTime = new Date(dateTimeString);
+            const year = dateTime.getFullYear();
+            const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+            const day = String(dateTime.getDate()).padStart(2, '0');
+            const hours = String(dateTime.getHours()).padStart(2, '0');
+            const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+
+            return `${year}-${month}-${day} ${hours}:${minutes}`;
+        }
 
         const ap_name = document.getElementsByName('ap_name')[0].value
         const ap_description = document.getElementsByName('ap_description')[0].value
         const ap_location = document.getElementsByName('ap_location')[0].value
-        const ap_datetime = document.getElementsByName('ap_datetime')[0].value
+        const ap_date = document.getElementsByName('ap_date')[0].value
 
         async function add_appointment(){
             let ap_name = document.getElementsByName('ap_name')[0].value
             let ap_description = document.getElementsByName('ap_description')[0].value
             let ap_location = document.getElementsByName('ap_location')[0].value
-            let ap_datetime = document.getElementsByName('ap_datetime')[0].value
-            if(ap_name == "" || ap_description == "" || ap_location == "" || ap_datetime == ""){
+            let ap_date = document.getElementsByName('ap_date')[0].value
+            if(ap_name == "" || ap_description == "" || ap_location == "" || ap_date == ""){
                 Swal.fire({
                     title: 'Please insert all data',
                     icon: 'warning',
@@ -107,7 +135,7 @@
                     ap_name: ap_name,
                     ap_description: ap_description,
                     ap_location: ap_location,
-                    ap_datetime: ap_datetime
+                    ap_date: ap_date
                 }
                 const dataJson = JSON.stringify(data);
                 const response = await fetch('http://localhost:1998/add_appointment', {
@@ -117,11 +145,192 @@
                 });
                 const response_data = await response.json();
                 if(response_data['status']){
-                    location.reload()
+                    Swal.fire({
+                        title: 'Add appointment succesfully.',
+                        icon: 'success',
+                        confirmbuttontext: 'OK'
+                    }).then((result) => {
+                        if(result.isConfirmed){
+                            location.reload();
+                        }
+                    })
                 }
             }
         }
+
+        async function delete_ap(ap_id){
+            Swal.fire({
+                title: 'Are you sure to delete appointment ?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmbuttonText: 'Sure',
+            }).then(async(result) => {
+                if(result.isConfirmed){
+                    const data = {
+                    ap_id: ap_id
+                    }
+                    const dataJson_ap_id = JSON.stringify(data);
+                    const response_del_ap = await fetch('http://localhost:1998/delete_ap',{
+                        method: "POST",
+                        headers: {'Content-Type' : 'application/json'},
+                        body: dataJson_ap_id
+                    });
+                    const response_data_del_ap = await response_del_ap.json();
+                    if(response_data_del_ap['status']){
+                        Swal.fire({
+                            title: 'Delete appointment successfully.',
+                            icon: 'success',
+                            confirmButtonText: "OK",
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                location.reload();
+                            }
+                        })
+                        
+                    }
+                    }
+                });
+            
+        }
+
+        async function done_ap(ap_id){
+            const data = {
+                ap_id: ap_id
+            }
+            const dataJson = JSON.stringify(data);
+            const response = await fetch('http://localhost:1998/done_ap',{
+                method: "POSt",
+                headers: {'Content-Type' : 'application/json'},
+                body: dataJson
+            });
+            const response_data = await response.json();
+            if(response_data['status']){
+                Swal.fire({
+                    title: 'Appointment done.',
+                    icon: 'success',
+                    confirmbuttonText: 'OK'
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        location.reload();
+                    }
+                })
+            }
+        }
+
+        async function edit_ap(ap_id) {
+    Swal.fire({
+        title: 'Edit Appointment',
+        html: `
+            <input id="input1" class="swal2-input" placeholder="Appointment name">
+            <input id="input2" class="swal2-input" placeholder="Appointment description">
+            <input id="input3" class="swal2-input" placeholder="Appointment location">
+            <input id="input4" type="date" class="swal2-input">
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        confirmButtonColor: '#88b04b',
+        preConfirm: async () => {
+            const ap_name = document.getElementById('input1').value;
+            const ap_description = document.getElementById('input2').value;
+            const ap_location = document.getElementById('input3').value;
+            const ap_datetime = document.getElementById('input4').value;
+            return [ap_name, ap_description, ap_location, ap_date];
+        }
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            const [ap_name, ap_description, ap_location, ap_datetime] = result.value;
+            if (ap_name == "" || ap_description == "" || ap_location == "" || ap_date == "") {
+                Swal.fire({
+                    title: "Please insert all data",
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                const data = {
+                    ap_id: ap_id,
+                    ap_name: ap_name,
+                    ap_description: ap_description,
+                    ap_location: ap_location,
+                    ap_datetime: ap_date
+                }
+                const dataJson = JSON.stringify(data);
+                const response = await fetch('http://localhost:1998/edit_ap', {
+                    method: "POST",
+                    headers: { 'Content-type': 'application/json' },
+                    body: dataJson
+                });
+                const response_data = await response.json();
+                if(response_data['status']){
+                    Swal.fire({
+                        title: 'Update successfully',
+                        icon: 'success',
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        if(result.isConfirmed){
+                            location.reload();
+                        }
+                    })
+                }
+            }
+        }
+    });
+}
+
+async function searchAP() {
+    let show_search = document.getElementById('show-search');
+    let input = document.getElementById('searchbox').value;
+    const data = <%- JSON.stringify(result) %>;
+    
+    // Clear the existing content of show_search
+    show_search.innerHTML = '';
+
+    data.forEach((items) => {
+        if (input === items.ap_name || input === items.ap_description || input === items.location || input === <%- JSON.stringify(username) %> || input == items.ap_date) {
+            const div = document.createElement('div');
+            div.classList.add('grid-show-items');
+            const innerDiv = document.createElement('div');
+            innerDiv.setAttribute('style', 'padding: 3%; color: black; font-size: larger; display: flex; flex-direction: column; width: 80%; background-color: rgb(186, 186, 186)');
+            
+            const nameLabel = document.createElement('label');
+            nameLabel.classList.add('show_appointment');
+            nameLabel.textContent = `Name : ${items.ap_name}`;
+            innerDiv.appendChild(nameLabel);
+            
+            const descLabel = document.createElement('label');
+            descLabel.classList.add('show_appointment');
+            descLabel.textContent = `Description : ${items.ap_description}`;
+            innerDiv.appendChild(descLabel);
+            
+            const locLabel = document.createElement('label');
+            locLabel.classList.add('show_appointment');
+            locLabel.textContent = `Location : ${items.ap_location}`;
+            innerDiv.appendChild(locLabel);
+            
+            const userLabel = document.createElement('label');
+            userLabel.classList.add('show_appointment');
+            userLabel.textContent = `User : ${<%- JSON.stringify(username) %>}`;
+            innerDiv.appendChild(userLabel);
+            
+            const buttonDiv = document.createElement('div');
+            buttonDiv.setAttribute('style', 'display: flex; justify-content: end;');
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('btn-show-appointment', 'btn-delete');
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function() {
+                delete_ap(items.ap_id);
+            };
+            buttonDiv.appendChild(deleteButton);
+            innerDiv.appendChild(buttonDiv);
+            
+            div.appendChild(innerDiv);
+            show_search.appendChild(div);
+        }
+    });
+}
+
     </script>
+
+
     <script>
         function updateClock() {
       const clockElement = document.getElementById('realtimeClock');

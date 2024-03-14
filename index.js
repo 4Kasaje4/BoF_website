@@ -10,6 +10,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const { runInContext } = require('vm');
 
 // Setting
 app.use(session({
@@ -55,7 +56,7 @@ db.serialize(() => {
     // Create table user. [user_id, username, firstname, lastname, password, phone, age]
     db.run('CREATE TABLE IF NOT EXISTS user(user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, firstname TEXT, lastname TEXT, password TEXT, phone TEXT, age INTEGER )');
     // Create table appointment. [ap_id, ap_name, ap_description, status, user_id(foreign key)]
-    db.run('CREATE TABLE IF NOT EXISTS appointment(ap_id INTEGER PRIMARY KEY AUTOINCREMENT, ap_name TEXT, ap_description TEXT, ap_location TEXT, ap_datetime DATETIME, ap_status BOOLEAN DEFAULT false, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id))');
+    db.run('CREATE TABLE IF NOT EXISTS appointment(ap_id INTEGER PRIMARY KEY AUTOINCREMENT, ap_name TEXT, ap_description TEXT, ap_location TEXT, ap_date DATE, ap_status BOOLEAN DEFAULT false, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id))');
 });
 
 router.get('/',(req,res) => {
@@ -75,7 +76,8 @@ router.get('/appointment', authLogin, (req,res) => {
         if(err){
             console.log(err);
         }else{ 
-            res.render('appointment', {result: result});
+            const reverse_result = result.slice().reverse();
+            res.render('appointment', {result: reverse_result, username: req.session.username});
         }
     });
     
@@ -140,10 +142,10 @@ router.post('/login', async(req,res) => {
    
 router.post('/add_appointment', async (req,res) => {
     try {
-        const {ap_name, ap_description, ap_location, ap_datetime} = req.body;
+        const {ap_name, ap_description, ap_location, ap_date} = req.body;
         const user_id = await req.session.user_id;
-        console.log(ap_name, ap_description, ap_location, ap_datetime, user_id);
-        db.run('INSERT INTO appointment(ap_name, ap_description, ap_location, ap_datetime, ap_status, user_id) VALUES(?, ?, ?, ?, ?, ?)',[ap_name, ap_description, ap_location, ap_datetime, false, user_id], (err) => {
+        console.log(ap_name, ap_description, ap_location, ap_date, user_id);
+        db.run('INSERT INTO appointment(ap_name, ap_description, ap_location, ap_date, ap_status, user_id) VALUES(?, ?, ?, ?, ?, ?)',[ap_name, ap_description, ap_location, ap_date, false, user_id], (err) => {
             if(err){
                 console.log(err);
             }else{
@@ -155,6 +157,54 @@ router.post('/add_appointment', async (req,res) => {
     }
 });
 
-app.use(router);
+router.post('/delete_ap', authLogin, (req,res) => {
+    try {
+        const ap_id = req.body.ap_id;
+        console.log(ap_id);
+        db.run('DELETE FROM appointment WHERE ap_id = ?', [ap_id], (err) => {
+            if(err){
+                console.log(err);
+            }else{
+                res.json({status: true});
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }
+});
 
+router.post('/done_ap', authLogin, (req,res) => {
+    try {
+        const ap_id = req.body.ap_id;
+        db.run('UPDATE appointment SET ap_status = ? WHERE ap_id = ?', [true, ap_id], (err) => {
+            if(err){
+                console.log(err);
+            }else{
+                res.json({status: true});
+            }
+        })
+        
+    } catch (error) {
+        console.log(error);
+    }
+
+});
+
+router.post('/edit_ap', authLogin, (req,res) => {
+    try {
+        const {ap_id, ap_name, ap_description, ap_location, ap_datetime} = req.body;
+        db.run('UPDATE appointment SET ap_name = ?, ap_description = ?, ap_location = ?, ap_date = ?',[ap_name, ap_description, ap_location, ap_datำ], (err) => {
+            if(err){
+                console.log(err);
+            }else{
+                res.json({status: true});
+            }
+        });
+        
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+app.use(router);
 app.listen(port,() => {console.log("Server is running.")});
